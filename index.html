@@ -84,11 +84,11 @@
                 <pre>function dynamicDimensions(selector, properties){&#10;&#09;var windowWidth = window.innerWidth;&#10;&#09;var theSelector = $(selector);&#10;&#09;for(property in properties){&#10;&#09;&#09;var style = property;&#10;&#09;&#09;var ratio = properties[property];&#10;&#09;&#09;newDimension = windowWidth*ratio&#10;&#09;&#09;theSelector.css(style, newDimension); &#10;&#09;} &#10;}</pre>
                 <p>Our elements will now be scaled correctly when we open our window, but the whole point in doing all this to achieve uniformity on resizing the window! Lets fix that.</p>
                 <pre>$(window).on('resize', function(){&#10;&#09;for(ratioList in ratios){&#10;&#09;&#09;dynamicDimensions(ratioList, ratios[ratioList]); &#10;&#09;} &#10;});</pre>
-                <p>Tada! This works for most things, but the limitations are many. This was created for a pretty narrow use case so may be buggy, but feel free to dive into my ugly code and do what you want!</p>
+                <p>Tada! This works for most things, but the limitations are many. This was created for a pretty narrow use case so may be buggy, but feel free to dive into <a target="_blank" href="https://github.com/nickroberts404/CSS-Ratios">my ugly code</a> and do what you want!</p>
                 <h3>Limitations</h3>
                 <ul>
                     <li>Only converts 'px' units.</li>
-                    <li>Only converts certain properties <i>(See source code)</i>.</li>
+                    <li>Only converts certain properties <i>(<a target="_blank" href="https://github.com/nickroberts404/CSS-Ratios">See source code</a>)</i>.</li>
                     <li>Shorthand CSS such as <code>margin: 10px 0 20px 0</code> will confuse it.</li>
                 </ul>
             </article>
