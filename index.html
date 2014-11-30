@@ -11,38 +11,38 @@
 </head>
 <body>
         <div class="col-sm-4" id="control">
-            <article>
                 <h1>CSS Ratios</h1>
-            <div class="input-group">
-                <span class="input-group-btn">
-                    <button class="btn btn-success" id="current" onclick="currentSize()">Current Width</button>
-                </span>
-                <input class="form-control" type="number" id="screenSize" placeholder="Browser width in pixels">
-            </div>
-            <button class="btn btn-primary pull-right" id="submit" onclick="output()">Go!</button>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" id="current" onclick="currentSize()">Current Width</button>
+                        </span>
+                        <input class="form-control" type="number" id="screenSize" placeholder="Browser width in pixels">
+                    </div>
+                    <button class="btn btn-primary pull-right" id="submit" onclick="output()">Go!</button>
+            <article>
                 <h3>What is it</h3>
-                <p>I made this little tool to help me while creating my <a target="_blank" href ="http://www.cs.utexas.edu/users/nickr404/elements/index.html">periodic table app</a>. I needed a way to make my elements scale in a dynamic and linear fashion so they would look proportionate at any width.</p>
-                <p>To use it, style your site to the way you like using a constant browser width. When you like what you see, copy and paste your CSS into here, enter the browser width you developed in, and click <i>Go!</i></p>
-                <p>This tool will take the CSS you feed it and turn it into a javascript object. With a couple of copy/paste javascript methods, your elements will be scaling to the window in no time!</p>
-                                <p>While it would typically be better to use tradional responsive design practices, this is a good solution for apps that rely heavily on the window's width for their style <i>(primarily font-size)</i>.</p>
-                <p><i class="text-danger">Requires jQuery</i></p>
+                    <p>I made this little tool to help me while creating my <a target="_blank" href ="http://www.cs.utexas.edu/users/nickr404/elements/index.html">periodic table app</a>. I needed a way to make my elements scale in a dynamic and linear fashion so they would look proportionate at any width.</p>
+                    <p>To use it, style your site to the way you like using a constant browser width. When you like what you see, copy and paste your CSS into here, enter the browser width you developed in, and click <i>Go!</i></p>
+                    <p>This tool will take the CSS you feed it and turn it into a javascript object. With a couple of copy/paste javascript methods, your elements will be scaling to the window in no time!</p>
+                    <p>While it would typically be better to use tradional responsive design practices, this is a good solution for apps that rely heavily on the window's width for their style <i>(primarily font-size)</i>.</p>
+                    <p><i class="text-danger">Requires jQuery</i></p>
             </article>
             <article>
                 <h3>How to use it</h3>
-                <p>After placing the ratios object into your code, you are going to want to cycle through each selector and their properties to apply the ratios. I usually place this at the beginning of my code.</p>
-                <pre class="prettyprint lang-js">for(ratioList in ratios){&#10;&#09;dynamicDimensions(ratioList, ratios[ratioList]);&#10;}</pre> 
-                <i>(The dynamicDimensions function will come soon!)</i>
-                <p>Next, you'll need to have a way to apply these properties to your elements. It is easier to use jQuery here, but I am sure there is a way to do without.</p>
-                <pre class="prettyprint lang-js">function dynamicDimensions(selector, properties){&#10;&#09;var windowWidth = window.innerWidth;&#10;&#09;var theSelector = $(selector);&#10;&#09;for(property in properties){&#10;&#09;&#09;var style = property;&#10;&#09;&#09;var ratio = properties[property];&#10;&#09;&#09;newDimension = windowWidth*ratio&#10;&#09;&#09;theSelector.css(style, newDimension); &#10;&#09;} &#10;}</pre>
-                <p>Our elements will now be scaled correctly when we open our window, but the whole point in doing all this is to achieve uniformity on resizing the window! Lets fix that.</p>
-                <pre class="prettyprint lang-js">$(window).on('resize', function(){&#10;&#09;for(ratioList in ratios){&#10;&#09;&#09;dynamicDimensions(ratioList, ratios[ratioList]); &#10;&#09;} &#10;});</pre>
-                <p>Tada! This works for most things, but the limitations are many. This was created for a pretty narrow use case so may be buggy, but feel free to dive into <a target="_blank" href="https://github.com/nickroberts404/CSS-Ratios">my ugly code</a> and do what you want!</p>
+                    <p>After placing the ratios object into your code, you are going to want to cycle through each selector and their properties to apply the ratios. I usually place this at the beginning of my code.</p>
+                    <pre class="prettyprint lang-js">for(ratioList in ratios){&#10;&#09;dynamicDimensions(ratioList, ratios[ratioList]);&#10;}</pre> 
+                    <i>(The dynamicDimensions function will come soon!)</i>
+                    <p>Next, you'll need to have a way to apply these properties to your elements. It is easier to use jQuery here, but I am sure there is a way to do without.</p>
+                    <pre class="prettyprint lang-js">function dynamicDimensions(selector, properties){&#10;&#09;var windowWidth = window.innerWidth;&#10;&#09;var theSelector = $(selector);&#10;&#09;for(property in properties){&#10;&#09;&#09;var style = property;&#10;&#09;&#09;var ratio = properties[property];&#10;&#09;&#09;newDimension = windowWidth*ratio&#10;&#09;&#09;theSelector.css(style, newDimension); &#10;&#09;} &#10;}</pre>
+                    <p>Our elements will now be scaled correctly when we open our window, but the whole point in doing all this is to achieve uniformity on resizing the window! Lets fix that.</p>
+                    <pre class="prettyprint lang-js">$(window).on('resize', function(){&#10;&#09;for(ratioList in ratios){&#10;&#09;&#09;dynamicDimensions(ratioList, ratios[ratioList]); &#10;&#09;} &#10;});</pre>
+                    <p>Tada! This works for most things, but the limitations are many. This was created for a pretty narrow use case so may be buggy, but feel free to dive into <a target="_blank" href="https://github.com/nickroberts404/CSS-Ratios">my ugly code</a> and do what you want!</p>
                 <h3>Limitations</h3>
-                <ul>
-                    <li>Only converts 'px' units.</li>
-                    <li>Only converts certain properties <i>(<a target="_blank" href="https://github.com/nickroberts404/CSS-Ratios/blob/master/js/main.js">See source code</a>)</i>.</li>
-                    <li>Shorthand CSS such as <code>margin: 10px 0 20px 0</code> will confuse it.</li>
-                </ul>
+                    <ul>
+                        <li>Only converts 'px' units.</li>
+                        <li>Only converts certain properties <i>(<a target="_blank" href="https://github.com/nickroberts404/CSS-Ratios/blob/master/js/main.js">See source code</a>)</i>.</li>
+                        <li>Shorthand CSS such as <code>margin: 10px 0 20px 0</code> will confuse it.</li>
+                    </ul>
             </article>
         </div>
 
