@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Ratios</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <style>
+        #control::-webkit-scrollbar { 
+            display: none; 
+        }
+        #control{
+            background:#73A5A2;
+            border-right:2px solid black;
+            padding:15px;
+            overflow-x: hidden;
+            overflow-y:scroll;
+        }
+        .col-sm-4{
+            margin:0;
+            padding:0;
+            height:100vh;
+        }
+        textarea{
+            font-family:monospace;
+            display:block;
+            width:100%;
+            padding:15px;
+            height:100vh;
+            border:none;
+        }
+        textarea::-webkit-input-placeholder{
+            color:salmon;
+        }
+        #CSStext{
+            background: #F0EAD2;
+            border-right:2px solid black;
+        }
+        #result{
+            background: #EBF1F1;
+        }
+        p{
+            font-size:18px;
+        }
+        h3{
+            font-weight:bold;
+            color:#EBF1F1;
+            text-decoration: underline;
+        }
+        #submit{
+            margin-top:10px;
+        }
+        h1{
+            font-size:50px;
+            font-weight: bolder;
+        }
+
+    </style>
+</head>
+<body>
+        <div class="col-sm-4" id="control">
+            <article>
+                <h1>CSS Ratios</h1>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-success" id="current" onclick="currentSize()">Current Width</button>
+                </span>
+                <input class="form-control" type="number" id="screenSize" placeholder="Browser width in pixels">
+            </div>
+            <button class="btn btn-primary pull-right" id="submit" onclick="output()">Go!</button>
+                <h3>What is it</h3>
+                <p>I made this little tool to help me while creating my <a target="_blank" href ="http://www.cs.utexas.edu/users/nickr404/elements/index.html">periodic table app</a>. I needed a way to make my elements scale in a dynamic and linear fashion so they would look proportionate at any width.</p>
+                <p>To use it, style your site to the way you like using a constant browser width. When you like what you see, copy and paste your CSS into here, enter the browser width you developed in, and click <i>Go!</i></p>
+                <p>This tool will take the CSS you feed it and turn it into a javascript object. With a couple of copy/paste javascript methods, your elements will be sizing to the window in no time!</p>
+                                <p>While it would typically be better to use tradional responsive design practices, this is a good solution for apps that rely heavily on the window's width for their style <i>(primarily font-size)</i>.</p>
+                <p><i class="text-danger">Requires jQuery</i></p>
+            </article>
+            <article>
+                <h3>How to use it</h3>
+                <p>After placing the ratios object into your code, you are going to want to cycle through each selector and their properties to apply the ratios. I usually place this at the beginning of my code.</p>
+                <pre>for(ratioList in ratios){&#10;&#09;dynamicDimensions(ratioList, ratios[ratioList]);&#10;}</pre> 
+                <i>(The dynamicDimensions function will come soon!)</i>
+                <p>Next, you'll need to have a way to apply these properties to your elements. It is easier to use jQuery here, but I am sure there is a way to do without.</p>
+                <pre>function dynamicDimensions(selector, properties){&#10;&#09;var windowWidth = window.innerWidth;&#10;&#09;var theSelector = $(selector);&#10;&#09;for(property in properties){&#10;&#09;&#09;var style = property;&#10;&#09;&#09;var ratio = properties[property];&#10;&#09;&#09;newDimension = windowWidth*ratio&#10;&#09;&#09;theSelector.css(style, newDimension); &#10;&#09;} &#10;}</pre>
+                <p>Our elements will now be scaled correctly when we open our window, but the whole point in doing all this to achieve uniformity on resizing the window! Lets fix that.</p>
+                <pre>$(window).on('resize', function(){&#10;&#09;for(ratioList in ratios){&#10;&#09;&#09;dynamicDimensions(ratioList, ratios[ratioList]); &#10;&#09;} &#10;});</pre>
+                <p>Tada! This works for most things, but the limitations are many. This was created for a pretty narrow use case so may be buggy, but feel free to dive into my ugly code and do what you want!</p>
+                <h3>Limitations</h3>
+                <ul>
+                    <li>Only converts 'px' units.</li>
+                    <li>Only converts certain properties <i>(See source code)</i>.</li>
+                    <li>Shorthand CSS such as <code>margin: 10px 0 20px 0</code> will confuse it.</li>
+                </ul>
+            </article>
+        </div>
+        <div class="col-sm-4">
+            <textarea id="CSStext" placeholder="Paste CSS in here..."></textarea>
+        </div>
+        <div class="col-sm-4">
+            <textarea id="result" placeholder="Ratio object will be output in here..."></textarea>
+        </div>
+
+    <script>
+
+        function parseCSS(string){
+            var screenSize = document.getElementById('screenSize').value;
+            var allowedProperties = ['font-size', 'top', 'bottom', 'right', 'left', 'height', 'width', 'margin', 'padding', 'margin-top', 'margin-bottom', 'margin-left', 'margin-right', 'padding-top', 'padding-bottom', 'padding-left', 'padding-right'];
+            var disallowedUnits = ['em', '%', 'vh', 'ch', 'ex'];
+            var ratios =[];
+            var propertyArray = [];
+            var valueArray = [];
+            var babyArray = [];
+            var myString = '';
+
+            for(var i=0; i<string.length; i++){
+                var current = string.charAt(i);
+                if(current=='{'){
+                    propertyArray.push(myString);
+                    myString = '';
+                } 
+                else if(current== '}'){
+                    if(valueArray.length>0){
+                        propertyArray.push(valueArray);
+                        ratios.push(propertyArray);
+                    }
+                    propertyArray = [];
+                    valueArray = [];
+                    myString = '';
+                }
+                else if(current==':'){
+                    babyArray.push(myString);
+                    myString = '';
+                }
+                else if(current==';'){
+                    if(onTheList(babyArray[0], allowedProperties, true) && !onTheList(myString, disallowedUnits, false) ){
+                        myString = myString.replace('px', '').trim();
+                        myString = parseInt(myString)/screenSize;
+                        babyArray.push(myString);
+                        valueArray.push(babyArray);
+                    }
+                    babyArray = [];
+                    myString = '';
+                }
+                else{
+                    myString = myString.concat(current).trim();
+                }
+            }
+            console.log(ratios);
+            return ratios;
+        }
+
+        function output(){
+            theArray = parseCSS(document.getElementById('CSStext').value);
+            container = document.getElementById('result');
+            var string = 'var ratios = {\n';
+            for(var i=0; i<theArray.length; i++){
+                string+='\t';
+                var selector = theArray[i][0];
+                string+='"'+selector+'": {';
+                for(var j=0; j<theArray[i][1].length; j++){
+                    var theStuff = theArray[i][1][j];
+                    var property = theStuff[0];
+                    var value = theStuff[1];
+                    string+='\n\t\t"'+property+'": '+value+',';
+                }
+                if(i==theArray.length-1) string+='\n\t}\n';
+                else string+='\n\t},\n';
+            }
+            string+='}';
+            container.value=(string);
+        }
+
+        function onTheList(string, list, specific){
+            for(var i=0; i<list.length; i++){
+                if(specific){
+                    if(list[i] == string) return true;
+                } else{
+                    if(string.search(list[i]) != -1) return true;
+                }
+            }
+            return false;
+        }
+
+        function currentSize(){
+            document.getElementById('screenSize').value = window.innerWidth;
+        }
+     </script>
+</body>
+</html>
