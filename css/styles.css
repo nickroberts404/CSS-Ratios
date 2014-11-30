@@ -1,0 +1,65 @@
+        
+        h1{
+            font-size:50px;
+            font-weight: bolder;
+        }
+
+        h3{
+            font-weight:bold;
+            color:#EBF1F1;
+            text-decoration: underline;
+        }
+
+        p{
+            font-size:18px;
+        }
+
+        .col-sm-4{
+            margin:0;
+            padding:0;
+            height:100vh;
+        }
+        
+        #control{
+            background:#73A5A2;
+            border-right:2px solid black;
+            padding:15px;
+            overflow-x: hidden;
+            overflow-y:scroll;
+        }
+
+        #control::-webkit-scrollbar { 
+            display: none; 
+        }
+
+        pre{
+            padding:10px !important; 
+            background: #EBF1F1;
+        }
+        
+        textarea{
+            font-family:monospace;
+            display:block;
+            width:100%;
+            padding:15px;
+            height:100vh;
+            border:none;
+        }
+
+        textarea::-webkit-input-placeholder{
+            color:salmon;
+        }
+
+        #CSStext{
+            background: #F0EAD2;
+            border-right:2px solid black;
+        }
+
+        #result{
+            background: #EBF1F1;
+        }
+        
+        
+        #submit{
+            margin-top:10px;
+        }
