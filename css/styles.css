@@ -14,6 +14,11 @@
             font-size:18px;
         }
 
+        #widthWarning{
+            margin-top:8px;
+            text-align:center;
+        }
+
         .col-sm-4{
             margin:0;
             padding:0;
@@ -31,6 +36,18 @@
         #control::-webkit-scrollbar { 
             display: none; 
         }
+
+        #git-link{
+            font-size:60px;
+            text-align:center;
+        }
+        #git-link>a{
+            color:#EBF1F1;
+        }
+        #git-link>a:hover{
+            color:#222;
+        }
+
 
         pre{
             padding:10px !important; 

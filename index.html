@@ -7,6 +7,7 @@
     <title>CSS Ratios</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -18,6 +19,7 @@
                         </span>
                         <input class="form-control" type="number" id="screenSize" placeholder="Browser width in pixels">
                     </div>
+                    <div id="widthWarning"><i>Use <code>console.log(window.innerWidth);</code> to find browser width.</i></div>
                     <button class="btn btn-primary pull-right" id="submit" onclick="output()">Go!</button>
             <article>
                 <h3>What is it</h3>
@@ -42,7 +44,10 @@
                         <li>Only converts 'px' units.</li>
                         <li>Only converts certain properties <i>(<a target="_blank" href="https://github.com/nickroberts404/CSS-Ratios/blob/master/js/main.js">See source code</a>)</i>.</li>
                         <li>Shorthand CSS such as <code>margin: 10px 0 20px 0</code> will confuse it.</li>
+                        <li>May be funky on mobile unless you restrict zooming.</li>
+                        <li>You have to put semicolons on everything!</li>
                     </ul>
+                <div id="git-link"><a target="_blank" href="https://github.com/nickroberts404/CSS-Ratios"><i class="fa fa-github"></i></a></div>
             </article>
         </div>
 
@@ -54,7 +59,7 @@
             <textarea id="result" placeholder="Ratio object will be output in here..."></textarea>
         </div>
 
-        <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=default"></script>
+        <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
         <script src="js/main.js"></script>
 </body>
 </html>
