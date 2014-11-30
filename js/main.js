@@ -58,7 +58,8 @@ function output(){
             var theStuff = theArray[i][1][j];
             var property = theStuff[0];
             var value = theStuff[1];
-            string+='\n\t\t"'+property+'": '+value+',';
+            string+='\n\t\t"'+property+'": '+value;
+            if(j!=theArray[i][1].length-1) string+=',';
         }
         if(i==theArray.length-1) string+='\n\t}\n';
         else string+='\n\t},\n';
