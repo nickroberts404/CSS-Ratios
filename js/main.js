@@ -2,7 +2,14 @@
 function parseCSS(string){
     var screenSize = document.getElementById('screenSize').value;
     var allowedProperties = ['font-size', 'top', 'bottom', 'right', 'left', 'height', 'width', 'margin', 'padding', 'margin-top', 'margin-bottom', 'margin-left', 'margin-right', 'padding-top', 'padding-bottom', 'padding-left', 'padding-right'];
-    var disallowedUnits = ['em', '%', 'vh', 'ch', 'ex'];
+    var disallowedUnits = ['em', '%', 'vh', 'ch', 'ex', 'vw'];
+    var blacklist = [];
+    if(!document.getElementById('includeMargin').checked)  blacklist=blacklist.concat(['margin', 'margin-top','margin-bottom','margin-left','margin-right']);
+    if(!document.getElementById('includePadding').checked) blacklist=blacklist.concat(['padding', 'padding-top','padding-bottom','padding-left','padding-right']);
+    for(var i=0; i< blacklist.length; i++){
+        var index = allowedProperties.indexOf(blacklist[i]);
+        if(index != -1) allowedProperties.splice(index, 1);
+    }
     var ratios =[];
     var propertyArray = [];
     var valueArray = [];
@@ -29,7 +36,8 @@ function parseCSS(string){
             myString = '';
         }
         else if(current==';'){
-            if(onTheList(babyArray[0], allowedProperties, true) && !onTheList(myString, disallowedUnits, false) ){
+
+            if(onTheList(babyArray[0], allowedProperties, true) && !onTheList(myString, disallowedUnits, false) && !isShorthand(myString) ){
                 myString = myString.replace('px', '').trim();
                 myString = parseInt(myString)/screenSize;
                 babyArray.push(myString);
@@ -42,7 +50,6 @@ function parseCSS(string){
             myString = myString.concat(current).trim();
         }
     }
-    console.log(ratios);
     return ratios;
 }
 
@@ -66,6 +73,17 @@ function output(){
     }
     string+='}';
     container.value=(string);
+}
+
+function isShorthand(string){
+    count = 0;
+    string = string.replace(/px/g, 'Z');
+    for(var i=0; i<string.length; i++){
+        if(string.charAt(i)=='Z') count++;
+        if(count>1) return true;
+        if(string.substr(i, i+2)=='Z0') return true;
+    }
+    return false;
 }
 
 function onTheList(string, list, specific){

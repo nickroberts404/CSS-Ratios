@@ -20,6 +20,14 @@
                         <input class="form-control" type="number" id="screenSize" placeholder="Browser width in pixels">
                     </div>
                     <div id="widthWarning"><i>Use <code>console.log(window.innerWidth);</code> to find browser width.</i></div>
+                    <div class="checkbox">
+                        <label>
+                            <input id="includeMargin" type="checkbox" checked>Include margins 
+                        </label>
+                        <label>
+                            <input id="includePadding" type="checkbox" checked>Include padding
+                        </label>
+                    </div>
                     <button class="btn btn-primary pull-right" id="submit" onclick="output()">Go!</button>
             <article>
                 <h3>What is it</h3>
@@ -43,7 +51,7 @@
                     <ul>
                         <li>Only converts 'px' units.</li>
                         <li>Only converts certain properties <i>(<a target="_blank" href="https://github.com/nickroberts404/CSS-Ratios/blob/master/js/main.js">See source code</a>)</i>.</li>
-                        <li>Shorthand CSS such as <code>margin: 10px 0 20px 0</code> will confuse it.</li>
+                        <li>Shorthand CSS such as <code>margin: 10px 0 20px 0</code> won't be converted.</li>
                         <li>May be funky on mobile unless you restrict zooming.</li>
                         <li>You have to put semicolons on everything!</li>
                     </ul>
